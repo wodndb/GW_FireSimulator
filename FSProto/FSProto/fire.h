@@ -8,36 +8,50 @@
 
 #include "fireNode.h"
 #include "map.h"
-#include <list>
+#include <queue>
 
 
 #ifndef FIRE_H
 #define FIRE_H
 
 class Fire {
-	Map* mapData;						//맵 데이터를 참조한다. (Call by reference)
-	std::list<FireNode> fireList;
+public:
+	Map* baseMapData;						//기반 맵 데이터 참조
+	Map fireMapData;						//맵 상에서 불의 데이터를 저장하는 데이터.
+	std::queue<FireNode> fireList;
 
 	/* Constructor (Default, Not need to input any parameter) */
 	Fire(void) {
-		this->mapData = NULL;
-		this->fireList = std::list<FireNode>();
+		this->baseMapData = NULL;
+		this->fireMapData = Map();
+		this->fireList = std::queue<FireNode>();
 	}
 
 	/* Constructor (Need to input parameter about Map Class) */
-	Fire(Map* _mapData) {
-		this->mapData = _mapData;
-		this->fireList = std::list<FireNode>();
+	Fire(Map* _baseMapData) {
+		this->baseMapData = _baseMapData;
+		this->fireMapData = *(_baseMapData);
+		this->fireList = std::queue<FireNode>();
 	}
 
 	/* Constructor (Need to input parameter about all of member variables) */
-	Fire(Map* _mapData, std::list<FireNode> _fireList) {
-		this->mapData = _mapData;
+	Fire(Map* _baseMapData, Map _mapData, std::queue<FireNode> _fireList) {
+		this->baseMapData = _baseMapData;
+		this->fireMapData = _mapData;
 		this->fireList = _fireList;
+	}
+
+	/* Copy Constructor */
+	Fire(const Fire &f) {
+		this->baseMapData = f.baseMapData;
+		this->fireMapData = f.fireMapData;
+		this->fireList = f.fireList;
 	}
 
 	/* Destructor */
 	~Fire() {
+		this->baseMapData->~Map();
+		this->fireMapData.~Map();
 	}
 
 	void createFire(int coordX, int coordY);

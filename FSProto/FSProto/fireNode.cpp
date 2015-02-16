@@ -13,7 +13,7 @@
 void FireNode::updateFireNode(void) {
 	//시간이 지날 때마다(Update) 불이 가연물을 태우는 강도(FireLevel) 증가
 	//최대 강도는 30
-	if (this->getFireLevel <= 30) {
+	if (this->getFireLevel() <= 30) {
 		this->setFireLevel(this->getFireLevel() + 1);
 	}
 	//남은 가연물 양 업데이트
@@ -21,6 +21,7 @@ void FireNode::updateFireNode(void) {
 	//가연물이 남지 않으면 상태를 전소(DESTROYED)로 변경, 불이 꺼진다.
 	if (this->getInflammable() < 0) {
 		this->enableFireState(FSTATE_DESTROYED);
+		this->setFireLevel(-1);
 	}
 }
 

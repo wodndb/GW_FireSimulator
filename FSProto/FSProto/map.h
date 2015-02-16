@@ -73,6 +73,7 @@ public:
 	~Map(void) {
 		if (this->getFileStream() != NULL) {
 			fclose(this->getFileStream());
+			this->setFilestream(NULL);
 		}
 		/*if (this->getFileName() != NULL) {
 			free(this->getFileName());
