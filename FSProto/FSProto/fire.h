@@ -22,6 +22,7 @@ public:
 
 	/* Constructor (Default, Not need to input any parameter) */
 	Fire(void) {
+		printf("Fire 클래스 디폴트 생성자 실행\n");
 		this->baseMapData = NULL;
 		this->fireMapData = Map();
 		this->fireList = std::queue<FireNode>();
@@ -29,6 +30,7 @@ public:
 
 	/* Constructor (Need to input parameter about Map Class) */
 	Fire(Map* _baseMapData) {
+		printf("Fire 클래스 _baseMapData 생성자 실행\n");
 		this->baseMapData = _baseMapData;
 		this->fireMapData = *(_baseMapData);
 		this->fireList = std::queue<FireNode>();
@@ -36,6 +38,7 @@ public:
 
 	/* Constructor (Need to input parameter about all of member variables) */
 	Fire(Map* _baseMapData, Map _mapData, std::queue<FireNode> _fireList) {
+		printf("Fire 클래스 전체 파라미터 입력 생성자 실행\n");
 		this->baseMapData = _baseMapData;
 		this->fireMapData = _mapData;
 		this->fireList = _fireList;
@@ -43,6 +46,7 @@ public:
 
 	/* Copy Constructor */
 	Fire(const Fire &f) {
+		printf("Fire 클래스 복사 생성자 실행\n");
 		this->baseMapData = f.baseMapData;
 		this->fireMapData = f.fireMapData;
 		this->fireList = f.fireList;
@@ -50,6 +54,7 @@ public:
 
 	/* Destructor */
 	~Fire() {
+		printf("Fire 클래스 소멸자 실행\n");
 		this->baseMapData->~Map();
 		this->fireMapData.~Map();
 	}

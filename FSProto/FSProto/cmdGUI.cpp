@@ -27,3 +27,53 @@ void printMap(Map mapData) {
 		printf("\n");
 	}
 }
+
+void initMap(Map mapData) {
+	system("cls");
+	printMap(mapData);
+}
+
+void initMap(Fire fireData) {
+	system("cls");
+	printMap(*(fireData.baseMapData));
+}
+
+void updateMap(Fire fireData) {
+	for (int i = 0; i < fireData.fireMapData.getHeight(); i++) {
+		for (int j = 0; j < fireData.fireMapData.getWidth(); j++) {
+			if (*(*(fireData.baseMapData->array + i) + j) != 1) {
+				gotoxy(j * 2, i);
+				switch (*(*(fireData.fireMapData.array + i) + j) / 5) {
+				case 0:
+					printf("  ");
+					break;
+				case 1:
+					printf("¡¤");
+					break;
+				case 2:
+					printf("¡Å");
+					break;
+				case 3:
+					printf("¡Ø");
+					break;
+				case 4:
+					printf("¢É");
+					break;
+				case 5:
+					printf("¢Ì");
+					break;
+				case 6:
+					printf("¡á");
+					break;
+				case -1:
+					printf("¢Æ");
+					break;
+				default:
+					printf("%2.2d", *(*(fireData.fireMapData.array + i) + j) / 5);
+					break;
+				}
+			}
+		}
+		printf("\n");
+	}
+}

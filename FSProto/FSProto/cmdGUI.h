@@ -9,7 +9,7 @@
  */
 
 #include <Windows.h>
-#include "map.h"
+#include "fire.h"
 
 #ifndef CMD_GUI_H
 #define CMD_GUI_H
@@ -22,5 +22,8 @@
 void gotoxy(int x, int y);
 
 void printMap(Map mapData);
+void initMap(Map mapData);
+void initMap(Fire fireData);
+void updateMap(Fire fireData);
 
 #endif /* CMD_GUI_H */

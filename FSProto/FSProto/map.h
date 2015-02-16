@@ -29,6 +29,7 @@ public:
 	//---- Constructor ----//
 
 	Map(void) {
+		printf("Map 클래스 디폴트 생성자 실행\n");
 		this->setFilestream(NULL);
 		this->setFileName(NULL);
 		this->setWidth(0);
@@ -37,6 +38,7 @@ public:
 	}
 
 	Map(FILE* _filestream, char* _fileName, int _width, int _height, int** _array) {
+		printf("Map 클래스 전체 파라미터 입력 생성자 실행\n");
 		this->setFilestream(_filestream);
 		this->setFileName(_fileName);
 		this->setWidth(_width);
@@ -47,23 +49,28 @@ public:
 	//---- Copy constructor ----//
 	
 	Map(const Map &m) {
+		printf("Map 클래스 복사 생성자 실행\n");
 		this->filestream = m.filestream;
 		this->height = m.height;
 		this->width = m.width;
 		
 		//Deep Copy fileName
-		this->fileName = (char*)malloc(sizeof(char) * strlen(m.fileName) + 1);
-		strcpy_s(this->fileName, strlen(m.fileName) + 1, m.fileName);
-
-		//Deep copy array
-		this->array = (int**)malloc(sizeof(int*) * m.height);
-		for (int i = 0; i < m.height; i++) {
-			*(this->array + i) = (int*)malloc(sizeof(int) * m.width);
+		if (m.fileName != NULL) {
+			this->fileName = (char*)malloc(sizeof(char) * strlen(m.fileName) + 1);
+			strcpy_s(this->fileName, strlen(m.fileName) + 1, m.fileName);
 		}
 
-		for (int i = 0; i < m.height; i++) {
-			for (int j = 0; j < m.width; j++) {
-				*(*(this->array + i) + j) = *(*(m.array + i) + j);
+		//Deep copy array
+		if (m.array != NULL) {
+			this->array = (int**)malloc(sizeof(int*) * m.height);
+			for (int i = 0; i < m.height; i++) {
+				*(this->array + i) = (int*)malloc(sizeof(int) * m.width);
+			}
+
+			for (int i = 0; i < m.height; i++) {
+				for (int j = 0; j < m.width; j++) {
+					*(*(this->array + i) + j) = *(*(m.array + i) + j);
+				}
 			}
 		}
 	}
@@ -71,6 +78,7 @@ public:
 	//---- Destructor ----//
 
 	~Map(void) {
+		printf("Map 클래스 소멸자 실행\n");
 		if (this->getFileStream() != NULL) {
 			fclose(this->getFileStream());
 			this->setFilestream(NULL);
@@ -103,6 +111,7 @@ public:
 	//---- Other Functions ----//
 
 	void loadMapFileStream(char* _fileName);
+	void allocateMap(int width, int height);
 	void parsingMapSize(void);
 	void constructMapData(void);
 };

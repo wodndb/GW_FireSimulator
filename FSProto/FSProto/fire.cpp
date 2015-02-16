@@ -12,26 +12,24 @@
 
 void Fire::createFire(int coordX, int coordY) {
 	//허용 맵 범위 내에 있는지 체크
-	if (coordX >= 0 && coordX < this->baseMapData->getWidth()
-		&& coordY >= 0 && coordX < this->baseMapData->getHeight()) {
+	if ((coordX >= 0 || coordX < this->baseMapData->getWidth())
+		&& (coordY >= 0 || coordY < this->baseMapData->getHeight())) {
 		//벽이 아니라 불에 탈 수 있는 장소인지 체크
 		if (*(*(this->baseMapData->array + coordY) + coordX) != 1
 			&& *(*(this->fireMapData.array + coordY) + coordX) == 0) {
 			FireNode tempFireNode(coordX, coordY);
 			tempFireNode.enableFireState(FSTATE_FIRE_ON | FSTATE_FIRE_NORMAL);
 			tempFireNode.updateFireNode();
-			*(*(this->fireMapData.array + coordY) + coordY) = tempFireNode.getFireLevel();
+			*(*(this->fireMapData.array + coordY) + coordX) = tempFireNode.getFireLevel();
 			this->fireList.push(tempFireNode);		//현재 Call by Value인데 Call by Reference로 동적할당 변경 필요
 		}
 	}
 }
 
 void Fire::extendFire(void) {
-	int fireNum = fireList.size();
-	FireNode tempFireNode;
+	int fireNum = this->fireList.size();
 
 	for (int i = 0; i < fireNum; i++) {
-
 		//해당 노드가 불이 확산될 수 있는 지점일 경우 -> 주변으로 확산
 		if ((this->fireList.front().fireState & FSTATE_EXTEND_DISABLE) != FSTATE_EXTEND_DISABLE) {
 			//확산 원점 노드 업데이트 및 큐의 맨 뒤로 보내기
@@ -45,7 +43,7 @@ void Fire::extendFire(void) {
 				for (int borderX = -1; borderX < 2; borderX++) {
 					if (borderX != this->fireList.front().getCoordX()
 						|| borderY != this->fireList.front().getCoordY()) {
-						this->createFire(borderX, borderY);
+						this->createFire(this->fireList.front().getCoordX() + borderX, this->fireList.front().getCoordY() + borderY);
 					}
 				}
 			}

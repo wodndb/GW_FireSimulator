@@ -12,9 +12,22 @@
 
 int main(void) {
 	Map testMap;
-	
 	testMap.constructMapData();
-	printMap(testMap);
+	Fire fireData(&testMap);
+	fireData.createFire(2, 2);
+	int cnt;
+
+	initMap(fireData);
+
+	cnt = 0;
+
+	while (1) {
+		Sleep(200);
+		fireData.extendFire();
+		updateMap(fireData);
+		gotoxy(0, 10);
+		printf("cnt : %d", cnt++);
+	}
 
 	_getch();
 }

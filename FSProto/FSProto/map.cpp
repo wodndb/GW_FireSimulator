@@ -102,3 +102,16 @@ void Map::constructMapData(void) {
 
 	this->setArray(tempArray);
 }
+
+void Map::allocateMap(int width, int height) {
+	if (this->array != NULL) {
+		free(this->array);
+	}
+
+	this->setWidth(width);
+	this->setHeight(height);
+	this->array = (int**)malloc(sizeof(int*) * height);
+	for (int i = 0; i < height; i++) {
+		*(this->array + i) = (int*)malloc(sizeof(int) * width);
+	}
+}
