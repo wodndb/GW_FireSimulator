@@ -29,7 +29,6 @@ public:
 	//---- Constructor ----//
 
 	Map(void) {
-		printf("Map 클래스 디폴트 생성자 실행\n");
 		this->setFilestream(NULL);
 		this->setFileName(NULL);
 		this->setWidth(0);
@@ -38,7 +37,6 @@ public:
 	}
 
 	Map(FILE* _filestream, char* _fileName, int _width, int _height, int** _array) {
-		printf("Map 클래스 전체 파라미터 입력 생성자 실행\n");
 		this->setFilestream(_filestream);
 		this->setFileName(_fileName);
 		this->setWidth(_width);
@@ -49,7 +47,6 @@ public:
 	//---- Copy constructor ----//
 	
 	Map(const Map &m) {
-		printf("Map 클래스 복사 생성자 실행\n");
 		this->filestream = m.filestream;
 		this->height = m.height;
 		this->width = m.width;
@@ -78,7 +75,6 @@ public:
 	//---- Destructor ----//
 
 	~Map(void) {
-		printf("Map 클래스 소멸자 실행\n");
 		if (this->getFileStream() != NULL) {
 			fclose(this->getFileStream());
 			this->setFilestream(NULL);

@@ -17,16 +17,17 @@ int main(void) {
 	fireData.createFire(2, 2);
 	int cnt;
 
-	initMap(fireData);
+	initMap(&fireData);
 
 	cnt = 0;
 
-	while (1) {
+	while (fireData.fireList.size() != 0) {
 		Sleep(200);
 		fireData.extendFire();
+		//printMapData(fireData.fireMapData);
 		updateMap(fireData);
 		gotoxy(0, 10);
-		printf("cnt : %d", cnt++);
+		printf("cnt : %d, Node : %d", cnt++, fireData.fireList.size());
 	}
 
 	_getch();

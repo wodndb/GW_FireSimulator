@@ -12,15 +12,15 @@
 
 void Fire::createFire(int coordX, int coordY) {
 	//허용 맵 범위 내에 있는지 체크
-	if ((coordX >= 0 || coordX < this->baseMapData->getWidth())
-		&& (coordY >= 0 || coordY < this->baseMapData->getHeight())) {
+	if ((coordX >= 0 && coordX < this->baseMapData->getWidth())
+		&& (coordY >= 0 && coordY < this->baseMapData->getHeight())) {
 		//벽이 아니라 불에 탈 수 있는 장소인지 체크
 		if (*(*(this->baseMapData->array + coordY) + coordX) != 1
-			&& *(*(this->fireMapData.array + coordY) + coordX) == 0) {
+			&& *(*(this->fireMapData->array + coordY) + coordX) == 0) {
 			FireNode tempFireNode(coordX, coordY);
 			tempFireNode.enableFireState(FSTATE_FIRE_ON | FSTATE_FIRE_NORMAL);
 			tempFireNode.updateFireNode();
-			*(*(this->fireMapData.array + coordY) + coordX) = tempFireNode.getFireLevel();
+			*(*(this->fireMapData->array + coordY) + coordX) = tempFireNode.getFireLevel();
 			this->fireList.push(tempFireNode);		//현재 Call by Value인데 Call by Reference로 동적할당 변경 필요
 		}
 	}
@@ -34,7 +34,7 @@ void Fire::extendFire(void) {
 		if ((this->fireList.front().fireState & FSTATE_EXTEND_DISABLE) != FSTATE_EXTEND_DISABLE) {
 			//확산 원점 노드 업데이트 및 큐의 맨 뒤로 보내기
 			this->fireList.front().updateFireNode();
-			*(*(this->fireMapData.array + this->fireList.front().getCoordY()) + this->fireList.front().getCoordX()) = this->fireList.front().getFireLevel();
+			*(*(this->fireMapData->array + this->fireList.front().getCoordY()) + this->fireList.front().getCoordX()) = this->fireList.front().getFireLevel();
 			this->fireList.front().enableFireState(FSTATE_EXTEND_DISABLE);	//불의 확산이 처리되므로 화재가 확산될 가능성 없음으로 정보 수정.
 			this->fireList.push(this->fireList.front());
 
@@ -55,10 +55,10 @@ void Fire::extendFire(void) {
 		else {
 			//불의 강도 증가 및 맵에 정보 업데이트
 			this->fireList.front().updateFireNode();
-			*(*(this->fireMapData.array + this->fireList.front().getCoordY()) + this->fireList.front().getCoordX()) = this->fireList.front().getFireLevel();
+			*(*(this->fireMapData->array + this->fireList.front().getCoordY()) + this->fireList.front().getCoordX()) = this->fireList.front().getFireLevel();
 
 			//해당 발화점이 전소된 경우 : 큐에서 제거
-			if ((this->fireList.front().fireState & FSTATE_DESTROYED) != FSTATE_DESTROYED) {
+			if ((this->fireList.front().fireState & FSTATE_DESTROYED) == FSTATE_DESTROYED) {
 				this->fireList.pop();
 			}
 			//해당 발화점이 전소되지 않은 경우 : 큐의 맨 뒤로 이동

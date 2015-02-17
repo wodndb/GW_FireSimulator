@@ -22,7 +22,19 @@ void printMap(Map mapData) {
 
 	for (int i = 0; i < mapData.getHeight(); i++) {
 		for (int j = 0; j < mapData.getWidth(); j++) {
-			printf("%s", *(*(tempMapArray + i) + j) == 0 ? "  " : "бс");
+			printf("%s", *(*(tempMapArray + i) + j) == 0 ? "  " : "бр");
+		}
+		printf("\n");
+	}
+}
+
+void printMapData(Map* mapData) {
+	int** tempMapArray = mapData->getArray();
+
+	for (int i = 0; i < mapData->getHeight(); i++) {
+		for (int j = 0; j < mapData->getWidth(); j++) {
+			gotoxy(j * 2, i);
+			printf("%d", *(*(tempMapArray + i) + j));
 		}
 		printf("\n");
 	}
@@ -33,17 +45,17 @@ void initMap(Map mapData) {
 	printMap(mapData);
 }
 
-void initMap(Fire fireData) {
+void initMap(Fire* fireData) {
 	system("cls");
-	printMap(*(fireData.baseMapData));
+	printMap(*(fireData->baseMapData));
 }
 
 void updateMap(Fire fireData) {
-	for (int i = 0; i < fireData.fireMapData.getHeight(); i++) {
-		for (int j = 0; j < fireData.fireMapData.getWidth(); j++) {
+	for (int i = 0; i < fireData.fireMapData->getHeight(); i++) {
+		for (int j = 0; j < fireData.fireMapData->getWidth(); j++) {
 			if (*(*(fireData.baseMapData->array + i) + j) != 1) {
 				gotoxy(j * 2, i);
-				switch (*(*(fireData.fireMapData.array + i) + j) / 5) {
+				switch (*(*(fireData.fireMapData->array + i) + j) / 5) {
 				case 0:
 					printf("  ");
 					break;
@@ -69,7 +81,7 @@ void updateMap(Fire fireData) {
 					printf("в╞");
 					break;
 				default:
-					printf("%2.2d", *(*(fireData.fireMapData.array + i) + j) / 5);
+					printf("%2.2d", *(*(fireData.fireMapData->array + i) + j) / 5);
 					break;
 				}
 			}

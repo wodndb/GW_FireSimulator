@@ -22,8 +22,9 @@
 void gotoxy(int x, int y);
 
 void printMap(Map mapData);
+void printMapData(Map* mapData);
 void initMap(Map mapData);
-void initMap(Fire fireData);
+void initMap(Fire* fireData);
 void updateMap(Fire fireData);
 
 #endif /* CMD_GUI_H */
